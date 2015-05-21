@@ -118,7 +118,15 @@ class rabbitmq::config {
       }
     }
     'RedHat': {
-      if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
+      if ($::operatingsystem == Amazon) and ($::operatingsystemrelease == 2015.03) {
+        file { '/etc/security/limits.d/rabbitmq-server.conf':
+          content => template('rabbitmq/limits.conf'),
+          owner   => '0',
+          group   => '0',
+          mode    => '0644',
+          notify  => Class['Rabbitmq::Service'],
+        }
+      } elsif versioncmp($::operatingsystemmajrelease, '7') >= 0 {
         file { '/etc/systemd/system/rabbitmq-server.service.d':
           ensure                  => directory,
           owner                   => '0',
