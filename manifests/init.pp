@@ -176,6 +176,10 @@ class rabbitmq(
   include '::rabbitmq::config'
   include '::rabbitmq::service'
   include '::rabbitmq::management'
+  include '::rabbitmq::vhost'
+  include '::rabbitmq::policy'
+  include '::rabbitmq::user'
+  include '::rabbitmq::userperms'
 
   if $manage_repos != undef {
     warning('$manage_repos is now deprecated. Please use $repos_ensure instead')
@@ -230,7 +234,9 @@ class rabbitmq(
 
   Anchor['rabbitmq::begin'] -> Class['::rabbitmq::install']
     -> Class['::rabbitmq::config'] ~> Class['::rabbitmq::service']
-    -> Class['::rabbitmq::management'] -> Anchor['rabbitmq::end']
+    -> Class['::rabbitmq::management'] -> Class['::rabbitmq::vhost']
+    -> Class['::rabbitmq::policy'] -> Class['::rabbitmq::user']
+    -> Class['::rabbitmq::userperms'] -> Anchor['rabbitmq::end']
 
   # Make sure the various providers have their requirements in place.
   Class['::rabbitmq::install'] -> Rabbitmq_plugin<| |>
