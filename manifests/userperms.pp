@@ -5,7 +5,7 @@ class rabbitmq::userperms {
     $username         = $name,
     $configure_perms  = '.*',
     $read_perms       = '.*',
-    $write_perms      = '.*'
+    $write_perms      = '.*',
   ) {
 
     validate_string   ( $username        )
@@ -14,7 +14,7 @@ class rabbitmq::userperms {
     validate_string   ( $write_perms     )
 
     rabbitmq_user_permissions { $username:
-      configure_permission => $config_perms,
+      configure_permission => $configure_perms,
       read_permission      => $read_perms,
       write_permission     => $write_perms,
     }
