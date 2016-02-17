@@ -118,7 +118,7 @@ class rabbitmq::config {
       }
     }
     'RedHat': {
-      if ($::operatingsystem == Amazon) and ($::operatingsystemrelease == 2015.03) {
+      if ($::operatingsystem == Amazon) and ($::operatingsystemrelease =~ /2015/) {
         file { '/etc/security/limits.d/rabbitmq-server.conf':
           content => template('rabbitmq/limits.conf'),
           owner   => '0',
