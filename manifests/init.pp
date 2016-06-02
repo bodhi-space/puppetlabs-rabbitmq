@@ -63,6 +63,7 @@ class rabbitmq(
   $environment_variables      = $rabbitmq::params::environment_variables,
   $config_variables           = $rabbitmq::params::config_variables,
   $config_kernel_variables    = $rabbitmq::params::config_kernel_variables,
+  $config_additional_variables = $rabbitmq::params::config_additional_variables,
   $key_content                = undef,
   $default_queues             = $rabbitmq::params::queues,
 ) inherits rabbitmq::params {
@@ -136,6 +137,8 @@ class rabbitmq(
   validate_hash($environment_variables)
   validate_hash($config_variables)
   validate_hash($config_kernel_variables)
+  validate_hash($config_additional_variables)
+
 
 
   if $ssl_only and ! $ssl {
