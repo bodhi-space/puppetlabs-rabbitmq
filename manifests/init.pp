@@ -64,7 +64,7 @@ class rabbitmq(
   $config_variables           = $rabbitmq::params::config_variables,
   $config_kernel_variables    = $rabbitmq::params::config_kernel_variables,
   $key_content                = undef,
-  $default_queues                     = $rabbitmq::params::queues,
+  $default_queues             = $rabbitmq::params::queues,
 ) inherits rabbitmq::params {
 
   validate_bool($admin_enable)
@@ -234,7 +234,8 @@ class rabbitmq(
   $queues = deep_merge($default_queues, hiera_hash('rabbitmq::queues', {}))
 
   if $queues {
-   Class['rabbitmq::queues']
+    include '::rabbitmq::queues'
+    Class['rabbitmq::service'] -> Class['::rabbitmq::queues']
   }
     
   anchor { 'rabbitmq::begin': }
