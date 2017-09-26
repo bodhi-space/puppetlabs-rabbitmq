@@ -233,7 +233,7 @@ class rabbitmq(
   
   $queues = deep_merge($default_queues, hiera_hash('rabbitmq::queues', {}))
 
-  if $queues {
+  unless empty($queues) {
     include '::rabbitmq::queues'
     Class['rabbitmq::service'] -> Class['::rabbitmq::queues']
   }
