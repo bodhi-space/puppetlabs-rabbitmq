@@ -98,14 +98,14 @@ Puppet::Type.type(:rabbitmq_exchange).provide(:rabbitmqadmin, :parent => Puppet:
     if arguments.nil?
       arguments = {}
     end
-    rabbitmqadmin('declare', 'exchange', vhost_opt, "--user=#{resource[:user]}", "--password=#{resource[:password]}", "name=#{name}", "type=#{resource[:type]}", "internal=#{resource[:internal]}", "durable=#{resource[:durable]}", "auto_delete=#{resource[:auto_delete]}", "arguments=#{arguments.to_json}", '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
+    rabbitmqadmin('declare', 'exchange', vhost_opt, "--username=#{resource[:user]}", "--password=#{resource[:password]}", "name=#{name}", "type=#{resource[:type]}", "internal=#{resource[:internal]}", "durable=#{resource[:durable]}", "auto_delete=#{resource[:auto_delete]}", "arguments=#{arguments.to_json}", '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
     @property_hash[:ensure] = :present
   end
 
   def destroy
     vhost_opt = should_vhost ? "--vhost=#{should_vhost}" : ''
     name = resource[:name].split('@')[0]
-    rabbitmqadmin('delete', 'exchange', vhost_opt, "--user=#{resource[:user]}", "--password=#{resource[:password]}", "name=#{name}", '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
+    rabbitmqadmin('delete', 'exchange', vhost_opt, "--username=#{resource[:user]}", "--password=#{resource[:password]}", "name=#{name}", '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
     @property_hash[:ensure] = :absent
   end
 
