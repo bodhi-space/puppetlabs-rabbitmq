@@ -40,12 +40,12 @@ EOT
   end
 
   it 'should call rabbitmqadmin to create as guest' do
-    @provider.expects(:rabbitmqadmin).with('declare', 'exchange', '--vhost=/', '--user=guest', '--password=guest', 'name=test.headers', 'type=headers', 'internal=false', 'durable=true', 'auto_delete=false', 'arguments={"hash-headers":"message-distribution-hash"}', '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
+    @provider.expects(:rabbitmqadmin).with('declare', 'exchange', '--vhost=/', '--username=guest', '--password=guest', 'name=test.headers', 'type=headers', 'internal=false', 'durable=true', 'auto_delete=false', 'arguments={"hash-headers":"message-distribution-hash"}', '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
     @provider.create
   end
 
   it 'should call rabbitmqadmin to destroy' do
-    @provider.expects(:rabbitmqadmin).with('delete', 'exchange', '--vhost=/', '--user=guest', '--password=guest', 'name=test.headers', '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
+    @provider.expects(:rabbitmqadmin).with('delete', 'exchange', '--vhost=/', '--username=guest', '--password=guest', 'name=test.headers', '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
     @provider.destroy
   end
 
@@ -68,7 +68,7 @@ EOT
     end
 
     it 'should call rabbitmqadmin to create with credentials' do
-      @provider.expects(:rabbitmqadmin).with('declare', 'exchange', '--vhost=/', '--user=colin', '--password=secret', 'name=test.headers', 'type=headers', 'internal=false', 'durable=true', 'auto_delete=false', 'arguments={"hash-header":"message-distribution-hash"}', '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
+      @provider.expects(:rabbitmqadmin).with('declare', 'exchange', '--vhost=/', '--username=colin', '--password=secret', 'name=test.headers', 'type=headers', 'internal=false', 'durable=true', 'auto_delete=false', 'arguments={"hash-header":"message-distribution-hash"}', '-c', '/etc/rabbitmq/rabbitmqadmin.conf')
       @provider.create
     end
   end

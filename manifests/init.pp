@@ -64,6 +64,7 @@ class rabbitmq(
   $config_variables           = $rabbitmq::params::config_variables,
   $config_kernel_variables    = $rabbitmq::params::config_kernel_variables,
   $key_content                = undef,
+  $default_queues             = $rabbitmq::params::queues,
 ) inherits rabbitmq::params {
 
   validate_bool($admin_enable)
@@ -135,6 +136,7 @@ class rabbitmq(
   validate_hash($environment_variables)
   validate_hash($config_variables)
   validate_hash($config_kernel_variables)
+
 
   if $ssl_only and ! $ssl {
     fail('$ssl_only => true requires that $ssl => true')
@@ -228,7 +230,14 @@ class rabbitmq(
       notify  => Class['rabbitmq::service'],
     }
   }
+  
+  $queues = deep_merge($default_queues, hiera_hash('rabbitmq::queues', {}))
 
+  if $queues {
+    include '::rabbitmq::queues'
+    Class['rabbitmq::service'] -> Class['::rabbitmq::queues']
+  }
+    
   anchor { 'rabbitmq::begin': }
   anchor { 'rabbitmq::end': }
 
