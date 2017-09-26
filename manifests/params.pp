@@ -118,4 +118,5 @@ class rabbitmq::params {
   $config_variables           = {}
   $config_kernel_variables    = {}
   $file_limit                 = 16384
+  $queues                     = {}
 }
