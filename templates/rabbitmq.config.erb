@@ -106,5 +106,11 @@
     {log, <%= @ldap_log %>}
   ]}
 <%- end -%>
+<%- if @config_additional_variables and not @config_additional_variables.empty? -%>,
+% Additional config
+<%- @config_additional_variables.keys.sort.each do |key| -%>
+  {<%= key %>, <%= @config_additional_variables[key] %>}<%- if key != @config_additional_variables.keys.sort.last %>,<% end %>
+<%- end -%>
+<%- end -%>
 ].
 % EOF
