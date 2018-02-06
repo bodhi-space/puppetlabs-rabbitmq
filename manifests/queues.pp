@@ -13,7 +13,12 @@ class rabbitmq::queues () {
     $durable      = $durable,
     $auto_delete  = false,
     $arguments    = {},
-  ) { 
+  ) {
+    if $password == undef {
+      fail("No password supplied for user $user.")
+    } else {
+      validate_string ( $password                     )
+    }
     rabbitmq_queue { $title:
       user        => $user,
       password    => $password,
