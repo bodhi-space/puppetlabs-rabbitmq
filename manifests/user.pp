@@ -10,7 +10,7 @@ class rabbitmq::user {
   ) {
 
     if $password == undef {
-      fail("No password supplied for user $username.")
+      fail("No password supplied for user '$username'.")
     } else {
       validate_string ( $password                     )
     }
