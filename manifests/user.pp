@@ -9,7 +9,11 @@ class rabbitmq::user {
     $admin          = false,
   ) {
 
-    validate_string   ( $password                     )
+    if $password == undef {
+      fail("No password supplied for user '$username'.")
+    } else {
+      validate_string ( $password                     )
+    }
     validate_re       ( $ensure, ['present','absent'] )
     validate_array    ( $tags                         )
     validate_bool     ( $admin                        )
